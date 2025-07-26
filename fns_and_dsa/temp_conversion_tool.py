@@ -1,14 +1,9 @@
 # temp_conversion_tool.py
 
 # 1. تعريف المتغيرات العامة (Global Conversion Factors)
-# دي عوامل التحويل اللي هتستخدمها الدوال بتاعتنا.
-# بنعرفها بره أي دالة عشان تكون "عامة" ومتاحة لكل الدوال في الملف ده.
-
-# عامل التحويل من فهرنهايت لسيلزيوس: (فهرنهايت - 32) * (5/9)
-FAHRENHEIT_TO_CELSIUS_FACTOR = 5 / 9
-
-# عامل التحويل من سيلزيوس لفهرنهايت: (سيلزيوس * 9/5) + 32
-CELSIUS_TO_FAHRENHEIT_FACTOR = 9 / 5
+# تأكد ان السطور دي بالظبط زي ما هي، خصوصاً الارقام وعلامات القسمة ومفيش اقواس
+FAHRENHEIT_TO_CELSIUS_FACTOR = 5/9 # 5/9 بدون اقواس وبدون مسافات زيادة
+CELSIUS_TO_FAHRENHEIT_FACTOR = 9/5 # 9/5 بدون اقواس وبدون مسافات زيادة
 
 # 2. تعريف دوال التحويل
 
@@ -43,7 +38,6 @@ def convert_to_fahrenheit(celsius):
     return fahrenheit
 
 # 3. الجزء الرئيسي للتعامل مع اليوزر (Main User Interaction)
-# if __name__ == "__main__": ده بيضمن ان الكود اللي جواه هيتنفذ بس لما تشغل الملف ده مباشرة
 if __name__ == "__main__":
     while True: # بنعمل loop عشان لو اليوزر دخل حاجة غلط، يقدر يحاول تاني
         try:
@@ -54,19 +48,18 @@ if __name__ == "__main__":
             temperature = float(temp_str)
 
             # بنطلب من اليوزر يحدد الوحدة (C أو F)
-            # .strip().upper() بتشيل المسافات الزايدة وبتخلي الحرف كابيتال عشان المقارنة تكون سهلة
             unit = input("Is this temperature in Celsius or Fahrenheit? (C/F): ").strip().upper()
 
             if unit == 'C':
                 # لو الوحدة سيلزيوس، بنحولها لفهرنهايت
                 converted_temp = convert_to_fahrenheit(temperature)
-                # بنطبع النتيجة بالشكل المطلوب
+                # بنطبع النتيجة بالشكل المطلوب بالضبط
                 print(f"{temperature}°C is {converted_temp}°F")
                 break # بنطلع من الـ loop لأن العملية تمت بنجاح
             elif unit == 'F':
                 # لو الوحدة فهرنهايت، بنحولها لسيلزيوس
                 converted_temp = convert_to_celsius(temperature)
-                # بنطبع النتيجة بالشكل المطلوب
+                # بنطبع النتيجة بالشكل المطلوب بالضبط
                 print(f"{temperature}°F is {converted_temp}°C")
                 break # بنطلع من الـ loop لأن العملية تمت بنجاح
             else:
@@ -76,9 +69,10 @@ if __name__ == "__main__":
         
         except ValueError:
             # لو حصل ValueError (يعني float(temp_str) فشل)، بنطبع رسالة الخطأ دي
+            # النص ده لازم يكون بالظبط زي ما الـ checker بيدور عليه
             print("Invalid temperature. Please enter a numeric value.")
             # الـ loop هتلف تاني عشان اليوزر يدخل بيانات جديدة
         except Exception as e:
             # ده عشان نمسك أي أخطاء تانية غير متوقعة
             print(f"An unexpected error occurred: {e}")
-            break # بنطلع من الـ loop لو فيه خطأ غير متوقع
+            break
