@@ -1,45 +1,42 @@
-# shopping_list_manager.py
+# arithmetic_operations.py
 
-def display_menu():
-    print("\nShopping List Manager") # \n بتنزل سطر جديد عشان المنظر يبقى أحسن
-    print("1. Add Item")
-    print("2. Remove Item")
-    print("3. View List")
-    print("4. Exit")
+# ده تعريف الدالة perform_operation.
+# تأكد ان السطر ده (سطر التعريف) بالظبط زي ما هو كده:
+# - الاسم perform_operation مكتوب صح.
+# - الاقواس وفيها num1, num2, operation بالترتيب ده وبنفس الاسماء.
+# - النقطتين اللي في الاخر : موجودة.
+def perform_operation(num1, num2, operation):
+    """
+    Performs basic arithmetic operations based on input.
 
-def main():
-    shopping_list = [] # دي القائمة الفاضية اللي هنخزن فيها مشترياتنا
+    Args:
+        num1 (float): The first number.
+        num2 (float): The second number.
+        operation (str): The type of operation ('add', 'subtract', 'multiply', 'divide').
 
-    while True: # دي الـ loop الأساسية اللي بتخلي البرنامج يفضل شغال لحد ما اليوزر يختار خروج
-        display_menu() # بنعرض القائمة لليوزر
-        choice = input("Enter your choice: ").strip() # بناخد اختيار اليوزر وبنشيل أي مسافات زيادة
+    Returns:
+        float or str: The result of the operation, or an error message if division by zero or invalid operation.
+    """
+    
+    # الكود ده بيخلي الـ operation كلها حروف صغيرة وبيشيل المسافات الزيادة
+    # ده بيضمن ان لو اليوزر كتب "Add" او " ADD "، الدالة تتعرف عليها صح
+    # main.py بيعمل كده اصلا، بس حلو ان الدالة تكون قوية لوحدها
+    operation = operation.strip().lower()
 
-        if choice == '1': # لو اليوزر اختار إضافة
-            item = input("Enter the item to add: ").strip()
-            shopping_list.append(item) # بنضيف العنصر للقائمة في آخرها
-            print(f"'{item}' added to the list.")
-        elif choice == '2': # لو اليوزر اختار حذف
-            item = input("Enter the item to remove: ").strip()
-            if item in shopping_list: # بنشوف هل العنصر ده موجود في القائمة أصلاً؟
-                shopping_list.remove(item) # لو موجود، بنحذفه
-                print(f"'{item}' removed from the list.")
-            else: # لو مش موجود
-                print(f"'{item}' not found in the list.")
-        elif choice == '3': # لو اليوزر اختار عرض القائمة
-            if not shopping_list: # بنشوف هل القائمة فاضية؟
-                print("Your shopping list is empty.")
+    # بنستخدم Match Case عشان ننفذ العملية المطلوبة بناءً على قيمة operation
+    match operation:
+        case 'add':
+            return num1 + num2 # لو العملية "add"، بنرجع نتيجة الجمع
+        case 'subtract':
+            return num1 - num2 # لو العملية "subtract"، بنرجع نتيجة الطرح
+        case 'multiply':
+            return num1 * num2 # لو العملية "multiply"، بنرجع نتيجة الضرب
+        case 'divide':
+            if num2 == 0: # ده شرط مهم جداً: لو بنقسم على صفر
+                # بنرجع رسالة خطأ محددة عشان main.py يعرف يتعامل معاها
+                return "Error: Cannot divide by zero"
             else:
-                print("\n--- Your Shopping List ---")
-                for i, item in enumerate(shopping_list, 1): # بنلف على القائمة ونطبع كل عنصر برقمه
-                    # enumerate بتديني رقم العنصر (i) والعنصر نفسه (item)
-                    # 1, معناها ابدأ الترقيم من 1 مش من 0
-                    print(f"{i}. {item}")
-                print("--------------------------")
-        elif choice == '4': # لو اليوزر اختار خروج
-            print("Goodbye!")
-            break # بنطلع من الـ while loop، وده بيوقف البرنامج
-        else: # لو اليوزر دخل أي رقم أو حرف مش في القائمة
-            print("Invalid choice. Please try again.")
-
-if __name__ == "__main__":
-    main()
+                return num1 / num2 # لو القسمة صحيحة، بنرجع النتيجة
+        case _: # ده الـ default case (case _) لو operation مش واحدة من اللي فوق
+            # بنرجع رسالة خطأ ان العملية غير صالحة
+            return "Error: Invalid operation"
